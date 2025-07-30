@@ -3,7 +3,9 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Lanyard from "../components/Lanyard/Lanyard";
 import CurvedLoop from "../components/CurvedLoop/CurvedLoop";
 import { DiMysql } from "react-icons/di";
-import ProfileCardMobile from "../components/ProfileCardMobile";
+import imgProfile from "../assets/img/profile2.png";
+import ProfileCard from "../components/ProfileCard/ProfileCard";
+
 import {
   FaHtml5,
   FaCss3Alt,
@@ -68,7 +70,18 @@ const About = () => {
             className="d-flex d-md-none justify-content-center mb-4"
             style={{ marginTop: "10px", position: "relative" }}
           >
-            <ProfileCardMobile />
+            <ProfileCard
+              name="Rheza"
+              title="Web Development"
+              handle="Rheza"
+              status="Online"
+              contactText="Contact Me"
+              avatarUrl={imgProfile}
+              showUserInfo={true}
+              enableTilt={true}
+              enableMobileTilt={false}
+              onContactClick={() => console.log('Contact clicked')}
+            />
           </Col>
 
           <Col md={7}>
