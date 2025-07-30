@@ -122,7 +122,7 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-      const frag = `precision highp float;
+      const frag = `precision mediump float;
 
 uniform float iTime;
 uniform vec2  iResolution;

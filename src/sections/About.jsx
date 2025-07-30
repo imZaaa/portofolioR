@@ -90,14 +90,14 @@ const About = () => {
               Informathics Student | Web Development
             </p>
             <p style={{ maxWidth: "700px" }}>
-            I am an Informatics student who believes that every line of code has the power to create change.
-            My interest in technology began with a curiosity about how applications and websites work,
-            which then evolved into a determination to pursue a career as a software engineer.
+              Iam an Informatics Engineering student who believes that every line of code has the power to create change.
+              My interest in technology started from my curiosity about how applications and websites work,
+              which later developed into a determination to pursue a career as a software engineer.
             </p>
             <p style={{ maxWidth: "700px" }}>
-              I have a strong interest in frontend development, with an approach that focuses on performance, 
-              structural clarity, and user experience. For me, an interface is not just about appearance, 
-              but also about how users interact, feel guided, and feel unburdened.
+             I have a strong interest in frontend development, with an approach that focuses on performance, 
+             clarity of structure, and user experience. To me, an interface is not just about how it looks, 
+             but also about how the user interacts, feels guided, and feels unencumbered.
             </p>
             <p style={{ maxWidth: "700px" }}>
               Currently, I am focusing on deepening my knowledge of React JS as the main foundation for building modern,
