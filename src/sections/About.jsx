@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Lanyard from "../components/Lanyard/Lanyard";
 import CurvedLoop from "../components/CurvedLoop/CurvedLoop";
 import { DiMysql } from "react-icons/di";
+import ProfileCardMobile from "../components/ProfileCardMobile";
 import {
   FaHtml5,
   FaCss3Alt,
@@ -61,33 +62,34 @@ const About = () => {
             <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
           </Col>
 
+          {/* Mobile: ProfileCard */}
+          <Col
+            xs={12}
+            className="d-flex d-md-none justify-content-center mb-4"
+            style={{ marginTop: "10px", position: "relative" }}
+          >
+            <ProfileCardMobile />
+          </Col>
+
           <Col md={7}>
             <h2 className="fw-bold display-5">Rheza Rifalsya Hermawan</h2>
             <p className="fs-5">
-              Mahasiswa Informatika | Frontend Developer
+              Informathics Student | Web Development
             </p>
             <p style={{ maxWidth: "700px" }}>
-              Saya adalah mahasiswa Informatika yang meyakini bahwa setiap
-              baris kode memiliki kekuatan untuk menciptakan perubahan.
-              Ketertarikan saya terhadap dunia teknologi dimulai dari rasa
-              penasaran terhadap cara kerja aplikasi dan situs web, yang
-              kemudian berkembang menjadi tekad untuk meniti karier sebagai
-              software engineer.
+            I am an Informatics student who believes that every line of code has the power to create change.
+            My interest in technology began with a curiosity about how applications and websites work,
+            which then evolved into a determination to pursue a career as a software engineer.
             </p>
             <p style={{ maxWidth: "700px" }}>
-              Saya memiliki minat yang kuat di bidang frontend development,
-              dengan pendekatan yang berfokus pada performa, kejelasan
-              struktur, dan kenyamanan pengguna. Bagi saya, antarmuka bukan
-              hanya soal tampilan, tapi juga pengalaman bagaimana pengguna
-              berinteraksi, merasa terarah, dan tidak terbebani.
+              I have a strong interest in frontend development, with an approach that focuses on performance, 
+              structural clarity, and user experience. For me, an interface is not just about appearance, 
+              but also about how users interact, feel guided, and feel unburdened.
             </p>
             <p style={{ maxWidth: "700px" }}>
-              Saat ini, saya sedang berfokus mendalami React JS sebagai
-              fondasi utama dalam membangun antarmuka yang modern, dinamis,
-              dan efisien. Saya juga terus mengeksplorasi prinsip-prinsip
-              desain dan praktik terbaik dalam pengembangan user interface
-              agar mampu menciptakan solusi digital yang intuitif dan
-              berdampak.
+              Currently, I am focusing on deepening my knowledge of React JS as the main foundation for building modern,
+              dynamic, and efficient interfaces. I also continue to explore design principles and best practices in
+              user interface development to create intuitive and impactful digital solutions.
             </p>
             <Button
               size="lg"

@@ -168,9 +168,6 @@ const Contact = () => {
                 <a href="https://instagram.com/zx_zaaa" target="_blank" rel="noreferrer">
                   <FaInstagram size={28} color="#001219" />
                 </a>
-                <a href="https://dribbble.com" target="_blank" rel="noreferrer">
-                  <FaDribbble size={28} color="#001219" />
-                </a>
               </div>
             </div>
           </Col>
