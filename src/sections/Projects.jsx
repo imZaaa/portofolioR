@@ -25,7 +25,7 @@ const projects = [
     title: "Study Master",
     description: "Aplikasi mobile untuk membuat jadwal belajar.",
     tech: ["Flutter", "Dart"],
-    image: "/images/sikampus.jpg",
+    image: "#",
     link: "#",
   },
   {
