@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-scroll";
 import "../assets/styles/style.css";
 
 const Navbar = () => {
@@ -17,7 +16,7 @@ const Navbar = () => {
           <ul className="navbar-nav d-flex gap-lg-4 gap-2 text-center">
             {["home", "about", "projects", "contact"].map((section) => (
               <li className="nav-item" key={section}>
-                <Link
+                <a
                   className="nav-link"
                   activeClass="active"
                   to={section}
@@ -27,7 +26,7 @@ const Navbar = () => {
                   duration={600}
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1)}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
