@@ -265,8 +265,13 @@ const ProfileCardComponent = ({
   );
 
   const handleContactClick = useCallback(() => {
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
     onContactClick?.();
   }, [onContactClick]);
+
 
   return (
     <div
