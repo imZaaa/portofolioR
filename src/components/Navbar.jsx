@@ -6,7 +6,9 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg floating-navbar shadow-sm">
       <div className="container d-flex align-items-center justify-content-between position-relative">
         {/* Brand */}
-        <a className="navbar-brand fw-bold" href="#">Zaa</a>
+        <a className="navbar-brand fw-bold" href="#">
+          <img src="" alt="Brand Logo" />
+        </a>
 
         {/* Navbar Links */}
         <div

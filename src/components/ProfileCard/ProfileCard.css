@@ -82,9 +82,6 @@
   overflow: hidden;
 }
 
-
-
-
 .pc-card * {
   display: grid;
   grid-area: 1/-1;
@@ -171,7 +168,7 @@
   opacity: 0;
 }
 
-.pc-card:hover .pc-shine,
+/* .pc-card:hover .pc-shine,
 .pc-card.active .pc-shine {
   filter: brightness(0.85) contrast(1.5) saturate(0.5);
   animation: none;
@@ -182,7 +179,7 @@
 .pc-card:hover .pc-shine::after,
 .pc-card.active .pc-shine::after {
   opacity: 1;
-}
+} */
 
 .pc-shine::before {
   background-image:
