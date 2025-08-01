@@ -5,6 +5,7 @@ import imgVivarta from "../assets/img/vivarta.png";
 import imgComputer from "../assets/img/computer.png";
 import imgNature from "../assets/img/nature.png";
 import imgTK from "../assets/img/tk.png";
+import imgStudy from "../assets/img/study.png";
 
 const projects = [
   {
@@ -25,8 +26,8 @@ const projects = [
     title: "Study Master",
     description: "Aplikasi mobile untuk membuat jadwal belajar.",
     tech: ["Flutter", "Dart"],
-    image: "#",
-    link: "#",
+    image: imgStudy,
+    link: "https://github.com/imZaaa/Aplikasi-Jadwal-Belajar",
   },
   {
     title: "Tech Nest",
