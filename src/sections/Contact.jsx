@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import emailjs from "emailjs-com";
+import Swal from "sweetalert2";
 import {
   FaEnvelope,
   FaPhone,
@@ -8,7 +9,6 @@ import {
   FaGithub,
   FaLinkedin,
   FaInstagram,
-  FaDribbble,
 } from "react-icons/fa";
 
 const Contact = () => {
@@ -29,11 +29,23 @@ const Contact = () => {
       .then(
         () => {
           setStatus("Message sent successfully!");
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Your message has been sent successfully.",
+            confirmButtonColor: "#3085d6",
+          });
           e.target.reset();
         },
         (error) => {
           console.error(error.text);
           setStatus("Failed to send. Please try again.");
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Failed to send message. Please try again later.",
+            confirmButtonColor: "#d33",
+          });
         }
       );
   };
