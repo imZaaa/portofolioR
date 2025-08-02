@@ -6,6 +6,7 @@ import imgComputer from "../assets/img/computer.png";
 import imgNature from "../assets/img/nature.png";
 import imgTK from "../assets/img/tk.png";
 import imgStudy from "../assets/img/study.png";
+import imgCar from "../assets/img/car.png";
 
 const projects = [
   {
@@ -37,11 +38,18 @@ const projects = [
     link: "https://github.com/imZaaa/mini_computer_store",
   },
   {
-    title: "Design Taman Kanak-Kanak",
+    title: "Design Website Taman Kanak-Kanak",
     description: "Design tampilan website untuk taman kanak-kanak.",
     tech: ["Figma"],
     image: imgTK,
     link: "https://www.figma.com/design/xG0dxMza2zMHHs9RAKFyg0/Madani-Website?node-id=0-1&p=f&t=9VweO569BifYi9dA-",
+  },
+  {
+    title: "Design Website Booking Cuci Mobil ",
+    description: "Design tampilan website untuk melakukan booking cuci mobil.",
+    tech: ["Figma"],
+    image: imgCar,
+    link: "https://www.figma.com/design/OVnOZ0lcxYstJ7yIoFcq76/Carwash?node-id=0-1&p=f&t=LMz2D4LakEl4PJJ1-0-",
   },
 ];
 
