@@ -7,6 +7,7 @@ import imgNature from "../assets/img/nature.png";
 import imgTK from "../assets/img/tk.png";
 import imgStudy from "../assets/img/study.png";
 import imgCar from "../assets/img/car.png";
+import imgFitness from "../assets/img/fitness.png";
 
 const projects = [
   {
@@ -50,6 +51,13 @@ const projects = [
     tech: ["Figma"],
     image: imgCar,
     link: "https://www.figma.com/design/OVnOZ0lcxYstJ7yIoFcq76/Carwash?node-id=0-1&p=f&t=LMz2D4LakEl4PJJ1-0-",
+  },
+  {
+    title: "Fitness dan Gym",
+    description: "Memodifikasi sebuah template website kursus belajar menjadi website workout and gym.",
+    tech: ["HTML", "CSS", "JavaScript"],
+    image: imgFitness,
+    link: "https://github.com/imZaaa/Fitness_and_Gymm",
   },
 ];
 
