@@ -1,5 +1,6 @@
 import React from "react";
 import "../assets/styles/style.css";
+import Logo from "../assets/img/logo.png";
 
 const Navbar = () => {
   return (
@@ -7,7 +8,7 @@ const Navbar = () => {
       <div className="container d-flex align-items-center justify-content-between position-relative">
         {/* Brand */}
         <a className="navbar-brand fw-bold" href="#">
-          <img src="" alt="Brand Logo" />
+          <img src={Logo} alt="Brand Logo" style={{ width: "40px" }} />
         </a>
 
         {/* Navbar Links */}
