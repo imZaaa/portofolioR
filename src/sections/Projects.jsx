@@ -62,7 +62,7 @@ const projects = [
   },
   {
     title: "Mini Dashboard Film",
-    description: "Membuat mini dashboard untuk menampilkan informasi film.",
+    description: "Membuat mini dashboard untuk menampilkan informasi film yang diambil dari OMDb API.",
     tech: ["React", "Bootstrap", "API"],
     image: imgDashboard,
     link: "https://github.com/imZaaa/Mini_Dashboard_Film",
