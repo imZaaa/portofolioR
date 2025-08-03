@@ -8,6 +8,7 @@ import imgTK from "../assets/img/tk.png";
 import imgStudy from "../assets/img/study.png";
 import imgCar from "../assets/img/car.png";
 import imgFitness from "../assets/img/fitness.png";
+import imgDashboard from "../assets/img/dashboard.png";
 
 const projects = [
   {
@@ -58,6 +59,13 @@ const projects = [
     tech: ["HTML", "CSS", "JavaScript"],
     image: imgFitness,
     link: "https://github.com/imZaaa/Fitness_and_Gymm",
+  },
+  {
+    title: "Mini Dashboard Film",
+    description: "Membuat mini dashboard untuk menampilkan informasi film.",
+    tech: ["React", "Bootstrap", "API"],
+    image: imgDashboard,
+    link: "https://github.com/imZaaa/Mini_Dashboard_Film",
   },
 ];
 
