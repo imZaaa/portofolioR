@@ -1,6 +1,7 @@
 import React from "react";
 import "../assets/styles/style.css";
 import Logo from "../assets/img/logo.png";
+import { Link } from "react-scroll";
 
 const Navbar = () => {
   return (
@@ -19,17 +20,17 @@ const Navbar = () => {
           <ul className="navbar-nav d-flex gap-lg-4 gap-2 text-center">
             {["home", "about", "projects", "contact"].map((section) => (
               <li className="nav-item" key={section}>
-                <a
+                <Link
                   className="nav-link"
                   activeClass="active"
                   to={section}
                   spy={true}
-                  smooth={true}
+                  smooth={false}
                   offset={-70} // biar gak ketutup navbar
                   duration={600}
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1)}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

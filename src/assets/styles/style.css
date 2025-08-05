@@ -24,6 +24,7 @@ section {
   color: #ffffff !important;
   font-weight: 500;
   position: relative;
+  cursor: pointer;
 }
 
 .floating-navbar .nav-link::after {
@@ -78,11 +79,6 @@ section {
   transition: all 0.3s ease;
 }
 
-/* Efek cursor typing */
-.typing-cursor {
-  animation: blink 1s infinite;
-  font-weight: bold;
-}
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
