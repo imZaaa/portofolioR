@@ -106,7 +106,7 @@ const About = () => {
             </p>
             <Button
               size="lg"
-              href="/cv.pdf"
+              href="/doc/CV-RhezaRifalsyaHermawan.pdf"
               download
               className="mt-3"
               style={{
