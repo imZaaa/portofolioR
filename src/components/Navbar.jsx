@@ -26,7 +26,6 @@ const Navbar = () => {
                   to={section}
                   spy={true}
                   smooth={false}
-                  offset={-70} // biar gak ketutup navbar
                   duration={600}
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1)}

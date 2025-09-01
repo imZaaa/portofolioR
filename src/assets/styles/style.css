@@ -4,37 +4,39 @@ section {
 
 .floating-navbar {
   position: fixed;
-  top: 20px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  max-width: 1000px;
-  background-color: #001219; 
-  border-radius: 50px;
+  max-width: 1100px;
+  background: rgba(0, 0, 0, 0.6);  /* transparan */
+  backdrop-filter: blur(12px);      /* efek blur */
+  border-radius: 14px;
   padding: 12px 24px;
   z-index: 999;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  margin-top: 20px;
 }
 
-/* Teks navbar jadi putih */
-.floating-navbar .nav-link,
-.floating-navbar .navbar-brand {
+.floating-navbar .nav-link {
   color: #ffffff !important;
-  font-weight: 500;
+  font-weight: 600;
+  margin: 0 12px;
   position: relative;
-  cursor: pointer;
 }
 
 .floating-navbar .nav-link::after {
   content: '';
   position: absolute;
-  bottom: 4px;
+  bottom: -6px;
   left: 0;
   width: 0%;
   height: 2px;
-  background-color: #ffffff; /* garis putih */
+  border-radius: 4px;
+  background: linear-gradient(90deg,#8B5CF6,#06b6d4); /* ungu -> cyan */
   transition: width 0.3s ease;
 }
 
@@ -43,30 +45,54 @@ section {
   width: 100%;
 }
 
-.floating-navbar .nav-link:hover,
+
+/* .floating-navbar .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #ffffff; /* garis putih */
+  /* transition: width 0.3s ease;
+
+} */
+
+
+/* .floating-navbar .nav-link:hover::after,
+.floating-navbar .nav-link.active::after {
+  width: 100%;
+} */
+
+/* .floating-navbar .nav-link:hover::after,
+.floating-navbar .nav-link.active::after {
+  width: 100%;
+} */
+
+/* .floating-navbar .nav-link:hover,
 .floating-navbar .nav-link.active {
   color: #f1f1f1 !important;
-}
+} */
 
-.floating-navbar .navbar-toggler {
+/* .floating-navbar .navbar-toggler {
   border: none;
   background-color: transparent;
-}
-
+} */
+/* 
 .floating-navbar .navbar-toggler-icon {
-  filter: invert(1); /* bikin ikon hamburger jadi putih */
-}
+  filter: invert(1); /* bikin ikon hamburger jadi putih
+  } */
+
 
 @media (max-width: 991.98px) {
   .floating-navbar {
-    border-radius: 20px;
     padding: 16px;
   }
 
   .floating-navbar .navbar-collapse {
-    background-color: #001219; /* tetap hitam saat mobile */
+    background-color: #090d12; 
     margin-top: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 15px;
   }
 
