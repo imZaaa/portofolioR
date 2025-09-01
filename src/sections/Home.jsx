@@ -1,14 +1,19 @@
-import React, { useLayoutEffect, useRef, useState, useMemo } from "react";
+import React, {
+  useLayoutEffect,
+  useRef,
+  useState,
+  useMemo,
+  useEffect,
+} from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Hyperspeed from "../components/Hyperspeed/Hyperspeed";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import imgProfile from "../assets/img/profile2.png";
 
-/* ===== Hook: pantau size container ===== */
+/* ===== Hooks util ===== */
 function useElementSize() {
   const ref = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
-
   useLayoutEffect(() => {
     if (!ref.current) return;
     const ro = new ResizeObserver((entries) => {
@@ -18,11 +23,9 @@ function useElementSize() {
     ro.observe(ref.current);
     return () => ro.disconnect();
   }, []);
-
   return [ref, size];
 }
 
-/* ===== Hook: tinggi navbar dinamis ===== */
 function useNavHeight() {
   const [h, setH] = useState(80);
   useLayoutEffect(() => {
@@ -30,10 +33,7 @@ function useNavHeight() {
       document.querySelector(".floating-navbar") ||
       document.querySelector(".navbar");
     if (!el) return;
-    const calc = () => {
-      // +16px buffer supaya gak nempel
-      setH(Math.ceil(el.getBoundingClientRect().height) + 16);
-    };
+    const calc = () => setH(Math.ceil(el.getBoundingClientRect().height) + 16);
     calc();
     const ro = new ResizeObserver(calc);
     ro.observe(el);
@@ -46,16 +46,64 @@ function useNavHeight() {
   return h;
 }
 
+function usePrefersReducedMotion() {
+  const [prefers, setPrefers] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handler = () => setPrefers(!!m.matches);
+    handler();
+    m.addEventListener?.("change", handler);
+    return () => m.removeEventListener?.("change", handler);
+  }, []);
+  return prefers;
+}
+
+function useOnScreen(ref, rootMargin = "0px") {
+  const [isIntersecting, setIntersecting] = useState(true);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIntersecting(entry.isIntersecting),
+      { root: null, rootMargin, threshold: 0.1 }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref, rootMargin]);
+  return isIntersecting;
+}
+
+/* ===== Home ===== */
 const Home = () => {
   const [sectionRef, sectionSize] = useElementSize();
   const navH = useNavHeight();
   const w = sectionSize.width || 1200;
 
-  const isSE = w <= 360;
   const isPhone = w < 576;
+  const isSE = w <= 360;
   const isTablet = w >= 768 && w < 992;
 
-  // Typography & spacing adaptif
+  // --- performance gates
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const sectionOnScreen = useOnScreen(sectionRef, "100px");
+
+  const deviceMemory = navigator.deviceMemory || 4; // Chrome-only (best-effort)
+  const cores = navigator.hardwareConcurrency || 4;
+  const dpr = Math.min(window.devicePixelRatio || 1, isPhone ? 1.5 : 2);
+
+  // heuristik low-end
+  const isLowEnd = cores <= 4 || deviceMemory <= 2 || dpr > 2.2;
+
+  // enable Hyperspeed? (tunda + kondisi)
+  const [hyperReady, setHyperReady] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setHyperReady(true), 300); // delay init
+    return () => clearTimeout(t);
+  }, []);
+
+  const enableHyperspeed =
+    hyperReady && sectionOnScreen && !prefersReducedMotion && !isLowEnd;
+
+  // Typography & spacing
   const headingStyle = {
     fontWeight: 800,
     fontSize: "clamp(1.4rem, 5vw, 3.25rem)",
@@ -63,13 +111,11 @@ const Home = () => {
     marginBottom: isSE ? 8 : 12,
     wordBreak: "break-word",
   };
-
   const subStyle = {
     fontSize: "clamp(0.95rem, 2.3vw, 1.25rem)",
     opacity: 0.9,
     marginBottom: isSE ? 8 : 12,
   };
-
   const paraStyle = {
     maxWidth: isTablet ? 640 : 720,
     margin: isPhone ? "0 auto" : "0",
@@ -78,9 +124,11 @@ const Home = () => {
     opacity: 0.92,
   };
 
+  // hindari backdrop-filter di mobile (mahal)
   const btnStyle = {
-    background: "rgba(255, 255, 255, 0.08)",
-    backdropFilter: "blur(10px)",
+    background: isPhone ? "rgba(139,92,246,0.22)" : "rgba(255, 255, 255, 0.08)",
+    // backdropFilter di-disable saat mobile
+    ...(isPhone ? {} : { backdropFilter: "blur(10px)" }),
     color: "#fff",
     fontWeight: 600,
     borderRadius: "12px",
@@ -96,29 +144,30 @@ const Home = () => {
     transformOrigin: "center",
   };
 
-  // Hyperspeed options (ringanin di layar kecil)
+  // Hyperspeed options
   const hyperOpts = useMemo(() => {
+    // base
     const base = {
       distortion: "turbulentDistortion",
-      length: 400,
-      roadWidth: 10,
+      length: 380,
+      roadWidth: 9,
       islandWidth: 2,
       lanesPerRoad: 4,
       fov: 90,
       fovSpeedUp: 150,
       speedUp: 2,
-      carLightsFade: 0.4,
-      totalSideLightSticks: 20,
-      lightPairsPerRoadWay: 40,
+      carLightsFade: 0.35,
+      totalSideLightSticks: 18,
+      lightPairsPerRoadWay: 32,
       shoulderLinesWidthPercentage: 0.05,
       brokenLinesWidthPercentage: 0.1,
       brokenLinesLengthPercentage: 0.5,
-      lightStickWidth: [0.12, 0.5],
-      lightStickHeight: [1.3, 1.7],
+      lightStickWidth: [0.12, 0.45],
+      lightStickHeight: [1.2, 1.6],
       movingAwaySpeed: [60, 80],
-      movingCloserSpeed: [-120, -160],
-      carLightsLength: [400 * 0.03, 400 * 0.2],
-      carLightsRadius: [0.05, 0.14],
+      movingCloserSpeed: [-120, -150],
+      carLightsLength: [380 * 0.03, 380 * 0.2],
+      carLightsRadius: [0.05, 0.13],
       carWidthPercentage: [0.3, 0.5],
       carShiftX: [-0.8, 0.8],
       carFloorSeparation: [0, 5],
@@ -132,15 +181,31 @@ const Home = () => {
         rightCars: [0x03b3c3, 0x0e5ea5, 0x324555],
         sticks: 0x03b3c3,
       },
+      // Jika komponen Hyperspeed support renderer options:
+      // renderer: { powerPreference: "low-power", antialias: false, alpha: false, pixelRatio: dpr },
     };
-    if (isSE || isPhone) {
-      return { ...base, lanesPerRoad: 3, totalSideLightSticks: 14, lightPairsPerRoadWay: 24, fov: 80 };
+
+    if (isLowEnd || isPhone) {
+      return {
+        ...base,
+        lanesPerRoad: 3,
+        totalSideLightSticks: 12,
+        lightPairsPerRoadWay: 20,
+        fov: 80,
+        speedUp: 1.6,
+      };
     }
     if (isTablet) {
-      return { ...base, lanesPerRoad: 4, totalSideLightSticks: 18, lightPairsPerRoadWay: 32, fov: 90 };
+      return {
+        ...base,
+        lanesPerRoad: 4,
+        totalSideLightSticks: 16,
+        lightPairsPerRoadWay: 26,
+        fov: 88,
+      };
     }
     return base;
-  }, [isSE, isPhone, isTablet]);
+  }, [isLowEnd, isPhone, isTablet, dpr]);
 
   return (
     <section
@@ -154,13 +219,12 @@ const Home = () => {
         isolation: "isolate",
         display: "flex",
         alignItems: "center",
-        // padding top mengikuti tinggi navbar + safe-area
         paddingTop: `calc(${navH}px + env(safe-area-inset-top, 0px))`,
         paddingBottom: isPhone ? 24 : 32,
         overflow: "visible",
       }}
     >
-      {/* BACKGROUND + top masks supaya teks/nav tidak ketimpa */}
+      {/* BACKGROUND */}
       <div
         aria-hidden
         style={{
@@ -168,32 +232,44 @@ const Home = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: "none",
-          willChange: "transform, opacity",
         }}
       >
-        <Hyperspeed
-          key={`${sectionSize.width}x${sectionSize.height}`}
-          effectOptions={hyperOpts}
-        />
-        {/* Solid mask persis di belakang navbar */}
+        {enableHyperspeed ? (
+          <Hyperspeed
+            key={`${sectionSize.width}x${sectionSize.height}:${isLowEnd ? "L" : "H"}`}
+            effectOptions={hyperOpts}
+          />
+        ) : (
+          // Fallback ringan di device lemah / reduce motion / offscreen
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(120% 70% at 50% 100%, rgba(6,182,212,.28), transparent 60%), radial-gradient(90% 50% at 0% 80%, rgba(139,92,246,.24), transparent 60%), #090d12",
+            }}
+          />
+        )}
+
+        {/* Mask solid di belakang navbar */}
         <div
           style={{
             position: "absolute",
             left: 0,
             right: 0,
             top: 0,
-            height: navH, // sama dengan paddingTop dasar
+            height: navH,
             background: "#090d12",
           }}
         />
-        {/* Gradient memudar ke konten */}
+        {/* Gradient memudar */}
         <div
           style={{
             position: "absolute",
             left: 0,
             right: 0,
             top: navH,
-            height: "48%",
+            height: "46%",
             background:
               "linear-gradient(180deg, rgba(9,13,18,.92) 0%, rgba(9,13,18,.65) 45%, rgba(9,13,18,0) 100%)",
           }}
@@ -203,18 +279,12 @@ const Home = () => {
       {/* KONTEN */}
       <Container style={{ position: "relative", zIndex: 2 }}>
         <Row className="align-items-center g-4 g-lg-5">
-          {/* Teks */}
-          <Col
-            md={7}
-            className={isPhone ? "text-center" : "text-md-start text-center"}
-          >
+          <Col md={7} className={isPhone ? "text-center" : "text-md-start text-center"}>
             <h2 style={headingStyle}>Rheza Rifalsya Hermawan</h2>
             <p style={subStyle}>Informatics Student · Web Development</p>
-
             <p style={paraStyle}>
-              As an Informatics Engineering student, I see every line of code
-              not just as syntax, but as a tool to innovate, solve problems,
-              and build solutions that matter.
+              As an Informatics Engineering student, I see every line of code not just as
+              syntax, but as a tool to innovate, solve problems, and build solutions that matter.
             </p>
 
             <div className={isPhone ? "d-flex justify-content-center" : ""}>
@@ -228,23 +298,19 @@ const Home = () => {
                   e.currentTarget.style.border = "1px solid #8B5CF6";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background =
-                    "rgba(255, 255, 255, 0.08)";
-                  e.currentTarget.style.border =
-                    "1px solid rgba(255,255,255,0.25)";
+                  e.currentTarget.style.background = isPhone
+                    ? "rgba(139,92,246,0.22)"
+                    : "rgba(255, 255, 255, 0.08)";
+                  e.currentTarget.style.border = "1px solid rgba(255,255,255,0.25)";
                 }}
-                aria-label="Jump to About section"
               >
                 About me
               </Button>
             </div>
           </Col>
 
-          {/* ProfileCard desktop/tablet */}
-          <Col
-            md={5}
-            className="d-none d-md-flex justify-content-center align-items-center"
-          >
+          {/* Desktop/Tablet Card */}
+          <Col md={5} className="d-none d-md-flex justify-content-center align-items-center">
             <div style={cardWrapStyle}>
               <ProfileCard
                 name="Rheza"
@@ -261,12 +327,8 @@ const Home = () => {
             </div>
           </Col>
 
-          {/* ProfileCard mobile */}
-          <Col
-            xs={12}
-            className="d-flex d-md-none justify-content-center"
-            style={{ marginTop: isSE ? 8 : 12 }}
-          >
+          {/* Mobile Card */}
+          <Col xs={12} className="d-flex d-md-none justify-content-center" style={{ marginTop: isSE ? 8 : 12 }}>
             <div style={cardWrapStyle}>
               <ProfileCard
                 name="Rheza"
@@ -276,7 +338,7 @@ const Home = () => {
                 contactText="Contact Me"
                 avatarUrl={imgProfile}
                 showUserInfo
-                enableTilt
+                enableTilt={false}          // extra aman
                 enableMobileTilt={false}
                 onContactClick={() => console.log("Contact clicked")}
               />
