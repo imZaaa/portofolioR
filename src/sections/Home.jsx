@@ -1,13 +1,14 @@
 import React, { useLayoutEffect, useRef, useState, useMemo } from "react";
-import Hyperspeed from "../components/Hyperspeed/Hyperspeed";
-import imgProfile from "../assets/img/profile2.png";
-import ProfileCard from "../components/ProfileCard/ProfileCard";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import Hyperspeed from "../components/Hyperspeed/Hyperspeed";
+import ProfileCard from "../components/ProfileCard/ProfileCard";
+import imgProfile from "../assets/img/profile2.png";
 
-/* Hook kecil: pantau ukuran elemen, biar canvas re-init saat layout berubah */
+/* ===== Hook: pantau size container ===== */
 function useElementSize() {
   const ref = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
+
   useLayoutEffect(() => {
     if (!ref.current) return;
     const ro = new ResizeObserver((entries) => {
@@ -17,22 +18,46 @@ function useElementSize() {
     ro.observe(ref.current);
     return () => ro.disconnect();
   }, []);
+
   return [ref, size];
+}
+
+/* ===== Hook: tinggi navbar dinamis ===== */
+function useNavHeight() {
+  const [h, setH] = useState(80);
+  useLayoutEffect(() => {
+    const el =
+      document.querySelector(".floating-navbar") ||
+      document.querySelector(".navbar");
+    if (!el) return;
+    const calc = () => {
+      // +16px buffer supaya gak nempel
+      setH(Math.ceil(el.getBoundingClientRect().height) + 16);
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    window.addEventListener("resize", calc);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", calc);
+    };
+  }, []);
+  return h;
 }
 
 const Home = () => {
   const [sectionRef, sectionSize] = useElementSize();
+  const navH = useNavHeight();
   const w = sectionSize.width || 1200;
 
-  // Breakpoints sederhana berbasis lebar kontainer
-  const isSE = w <= 360;           // iPhone SE & friends
+  const isSE = w <= 360;
   const isPhone = w < 576;
   const isTablet = w >= 768 && w < 992;
 
-  // Typo & spacing adaptif
+  // Typography & spacing adaptif
   const headingStyle = {
     fontWeight: 800,
-    // SE: min 1.4rem, phone: naik dikit; desktop: max 3.25rem
     fontSize: "clamp(1.4rem, 5vw, 3.25rem)",
     lineHeight: 1.1,
     marginBottom: isSE ? 8 : 12,
@@ -47,7 +72,7 @@ const Home = () => {
 
   const paraStyle = {
     maxWidth: isTablet ? 640 : 720,
-    margin: isPhone ? "0 auto" : "0", // center di phone
+    margin: isPhone ? "0 auto" : "0",
     fontSize: "clamp(0.95rem, 1.5vw, 1.125rem)",
     lineHeight: 1.7,
     opacity: 0.92,
@@ -71,7 +96,7 @@ const Home = () => {
     transformOrigin: "center",
   };
 
-  // Hyperspeed options: lebih ringan di layar kecil
+  // Hyperspeed options (ringanin di layar kecil)
   const hyperOpts = useMemo(() => {
     const base = {
       distortion: "turbulentDistortion",
@@ -108,28 +133,12 @@ const Home = () => {
         sticks: 0x03b3c3,
       },
     };
-
     if (isSE || isPhone) {
-      // ringanin
-      return {
-        ...base,
-        lanesPerRoad: 3,
-        totalSideLightSticks: 14,
-        lightPairsPerRoadWay: 24,
-        fov: 80,
-      };
+      return { ...base, lanesPerRoad: 3, totalSideLightSticks: 14, lightPairsPerRoadWay: 24, fov: 80 };
     }
-
     if (isTablet) {
-      return {
-        ...base,
-        lanesPerRoad: 4,
-        totalSideLightSticks: 18,
-        lightPairsPerRoadWay: 32,
-        fov: 90,
-      };
+      return { ...base, lanesPerRoad: 4, totalSideLightSticks: 18, lightPairsPerRoadWay: 32, fov: 90 };
     }
-
     return base;
   }, [isSE, isPhone, isTablet]);
 
@@ -139,19 +148,19 @@ const Home = () => {
       id="home"
       style={{
         position: "relative",
-        // pakai minHeight biar aman address bar mobile
         minHeight: "100svh",
         backgroundColor: "#090d12",
         color: "#ffffff",
         isolation: "isolate",
         display: "flex",
         alignItems: "center",
-        // padding vertikal adaptif
-        padding: isSE ? "56px 0 28px" : isPhone ? "72px 0" : "96px 0",
-        overflow: "hidden",
+        // padding top mengikuti tinggi navbar + safe-area
+        paddingTop: `calc(${navH}px + env(safe-area-inset-top, 0px))`,
+        paddingBottom: isPhone ? 24 : 32,
+        overflow: "visible",
       }}
     >
-      {/* BACKGROUND Hyperspeed */}
+      {/* BACKGROUND + top masks supaya teks/nav tidak ketimpa */}
       <div
         aria-hidden
         style={{
@@ -163,15 +172,38 @@ const Home = () => {
         }}
       >
         <Hyperspeed
-          key={`${sectionSize.width}x${sectionSize.height}`} // reinit saat resize
+          key={`${sectionSize.width}x${sectionSize.height}`}
           effectOptions={hyperOpts}
+        />
+        {/* Solid mask persis di belakang navbar */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: navH, // sama dengan paddingTop dasar
+            background: "#090d12",
+          }}
+        />
+        {/* Gradient memudar ke konten */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: navH,
+            height: "48%",
+            background:
+              "linear-gradient(180deg, rgba(9,13,18,.92) 0%, rgba(9,13,18,.65) 45%, rgba(9,13,18,0) 100%)",
+          }}
         />
       </div>
 
       {/* KONTEN */}
-      <Container style={{ position: "relative", zIndex: 1 }}>
+      <Container style={{ position: "relative", zIndex: 2 }}>
         <Row className="align-items-center g-4 g-lg-5">
-          {/* Text */}
+          {/* Teks */}
           <Col
             md={7}
             className={isPhone ? "text-center" : "text-md-start text-center"}
@@ -181,13 +213,13 @@ const Home = () => {
 
             <p style={paraStyle}>
               As an Informatics Engineering student, I see every line of code
-              not just as syntax, but as a tool to innovate, solve problems, and
-              build solutions that matter.
+              not just as syntax, but as a tool to innovate, solve problems,
+              and build solutions that matter.
             </p>
 
             <div className={isPhone ? "d-flex justify-content-center" : ""}>
               <Button
-                size={isSE ? "sm" : "sm"}
+                size="sm"
                 href="#about"
                 className="mt-3"
                 style={btnStyle}
@@ -229,10 +261,10 @@ const Home = () => {
             </div>
           </Col>
 
-          {/* ProfileCard phone */}
+          {/* ProfileCard mobile */}
           <Col
             xs={12}
-            className="d-flex d-md-none justify-content-center mt-3"
+            className="d-flex d-md-none justify-content-center"
             style={{ marginTop: isSE ? 8 : 12 }}
           >
             <div style={cardWrapStyle}>
