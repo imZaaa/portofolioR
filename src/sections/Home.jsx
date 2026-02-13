@@ -281,10 +281,9 @@ const Home = () => {
         <Row className="align-items-center g-4 g-lg-5">
           <Col md={7} className={isPhone ? "text-center" : "text-md-start text-center"}>
             <h2 style={headingStyle}>Rheza Rifalsya Hermawan</h2>
-            <p style={subStyle}>Informatics Student · Web Development</p>
+            <p style={subStyle}>Informatika · Web Development</p>
             <p style={paraStyle}>
-              As an Informatics Engineering student, I see every line of code not just as
-              syntax, but as a tool to innovate, solve problems, and build solutions that matter.
+              Mahasiswa Manajemen Informatika yang berfokus pada pengembangan web, memanfaatkan kode untuk menciptakan solusi digital yang inovatif, efisien, dan berdampak, dengan prioritas pada fungsionalitas dan pengalaman pengguna.
             </p>
 
             <div className={isPhone ? "d-flex justify-content-center" : ""}>

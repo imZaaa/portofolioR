@@ -2,114 +2,117 @@ section {
   padding-top: 60px;
 }
 
+/* --- ELITE PILL DYNAMIC NAVBAR --- */
 .floating-navbar {
   position: fixed;
-  top: 0;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  transition: all 0.6s cubic-bezier(0.2, 1, 0.2, 1);
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(15px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px; /* Bentuk Kapsul Abadi */
+}
+
+/* STATE 1: ATAS (Panjang & Elegan) */
+.nav-top {
+  top: 25px;
   width: 90%;
   max-width: 1100px;
-  background: rgba(0, 0, 0, 0.6);  /* transparan */
-  backdrop-filter: blur(12px);      /* efek blur */
-  border-radius: 14px;
-  padding: 12px 24px;
-  z-index: 999;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease-in-out;
+  padding: 10px 20px;
+}
+
+/* STATE 2: SCROLLED (Pendek & Ringkas) */
+.nav-scrolled {
+  top: 15px;
+  width: auto;
+  min-width: 700px; /* Atur lebar minimal biar gak terlalu sempit */
+  max-width: 850px;
+  padding: 8px 15px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  background: rgba(5, 5, 5, 0.9);
+}
+
+/* Logo */
+.navbar-logo {
+  height: 35px;
+  width: auto;
+  transition: all 0.4s ease;
+}
+
+.nav-scrolled .navbar-logo {
+  height: 28px;
+}
+
+/* Link Styling - Mode Kapsul */
+.nav-link-pill {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 10px 22px !important;
+  text-decoration: none;
   cursor: pointer;
-  margin-top: 20px;
-}
-
-.floating-navbar .nav-link {
-  color: #ffffff !important;
-  font-weight: 600;
-  margin: 0 12px;
-  position: relative;
-}
-
-.floating-navbar .nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  border-radius: 4px;
-  background: linear-gradient(90deg,#8B5CF6,#06b6d4); /* ungu -> cyan */
-  transition: width 0.3s ease;
-}
-
-.floating-navbar .nav-link:hover::after,
-.floating-navbar .nav-link.active::after {
-  width: 100%;
-}
-
-
-/* .floating-navbar .nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background-color: #ffffff; /* garis putih */
-  /* transition: width 0.3s ease;
-
-} */
-
-
-/* .floating-navbar .nav-link:hover::after,
-.floating-navbar .nav-link.active::after {
-  width: 100%;
-} */
-
-/* .floating-navbar .nav-link:hover::after,
-.floating-navbar .nav-link.active::after {
-  width: 100%;
-} */
-
-/* .floating-navbar .nav-link:hover,
-.floating-navbar .nav-link.active {
-  color: #f1f1f1 !important;
-} */
-
-/* .floating-navbar .navbar-toggler {
-  border: none;
-  background-color: transparent;
-} */
-/* 
-.floating-navbar .navbar-toggler-icon {
-  filter: invert(1); /* bikin ikon hamburger jadi putih
-  } */
-
-
-@media (max-width: 991.98px) {
-  .floating-navbar {
-    padding: 16px;
-  }
-
-  .floating-navbar .navbar-collapse {
-    background-color: #090d12; 
-    margin-top: 10px;
-    border-radius: 10px;
-    padding: 15px;
-  }
-
-  .floating-navbar .nav-link {
-    margin-bottom: 10px;
-  }
-}
-
-.navbar-collapse {
+  border-radius: 50px;
   transition: all 0.3s ease;
 }
 
-#about { scroll-margin-top: 80px; }
+.nav-link-pill:hover {
+  color: #fff !important;
+}
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+/* EFEK ACTIVE PILL - Kaya di Gambar Lu */
+.active-pill {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.1) !important; /* Abu-abu gelap transparan */
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Tombol Let's Talk */
+.btn-talk-elite {
+  background: #ffffff;
+  color: #000000 !important;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-talk-elite:hover {
+  background: transparent;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  outline: 1px solid #ffffff;
+}
+
+/* Responsivitas Mobile */
+@media (max-width: 991.98px) {
+  .nav-top, .nav-scrolled {
+    width: 92% !important;
+    min-width: unset !important;
+    max-width: unset !important;
+    top: 15px;
+    padding: 12px 20px;
+  }
+  
+  .navbar-collapse {
+    background: #0a0a0a;
+    border-radius: 20px;
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link-pill {
+    padding: 12px !important;
+    display: block;
+  }
 }
 
 /* Gaya kartu profile */
