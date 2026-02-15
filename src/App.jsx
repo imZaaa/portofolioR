@@ -5,22 +5,25 @@ import About from './sections/About';
 import Projects from './sections/Projects';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
+import { AnimatePresence } from "framer-motion"; // Penting!
 
 function App() {
  
   return (
     <>
-      <Navbar />
-      
-      <Home />
+    <AnimatePresence mode="wait">
+        <Navbar />
+        
+        <Home />
 
-      <About />
+        <About />
 
-      <Projects />
+        <Projects />
 
-      <Contact />
+        <Contact />
 
-      <Footer />
+        <Footer />
+      </AnimatePresence>
     </>
   );
 }

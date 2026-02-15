@@ -2,15 +2,14 @@ import React, {
   useLayoutEffect,
   useRef,
   useState,
-  useMemo,
   useEffect,
 } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Hyperspeed from "../components/Hyperspeed/Hyperspeed";
+import { motion } from "framer-motion"; 
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import imgProfile from "../assets/img/profile2.png";
 
-/* ===== Hooks util ===== */
+/* ===== Hooks util (Tetap sama) ===== */
 function useElementSize() {
   const ref = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -46,32 +45,6 @@ function useNavHeight() {
   return h;
 }
 
-function usePrefersReducedMotion() {
-  const [prefers, setPrefers] = useState(false);
-  useEffect(() => {
-    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = () => setPrefers(!!m.matches);
-    handler();
-    m.addEventListener?.("change", handler);
-    return () => m.removeEventListener?.("change", handler);
-  }, []);
-  return prefers;
-}
-
-function useOnScreen(ref, rootMargin = "0px") {
-  const [isIntersecting, setIntersecting] = useState(true);
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setIntersecting(entry.isIntersecting),
-      { root: null, rootMargin, threshold: 0.1 }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref, rootMargin]);
-  return isIntersecting;
-}
-
 /* ===== Home ===== */
 const Home = () => {
   const [sectionRef, sectionSize] = useElementSize();
@@ -82,59 +55,43 @@ const Home = () => {
   const isSE = w <= 360;
   const isTablet = w >= 768 && w < 992;
 
-  // --- performance gates
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const sectionOnScreen = useOnScreen(sectionRef, "100px");
-
-  const deviceMemory = navigator.deviceMemory || 4; // Chrome-only (best-effort)
-  const cores = navigator.hardwareConcurrency || 4;
-  const dpr = Math.min(window.devicePixelRatio || 1, isPhone ? 1.5 : 2);
-
-  // heuristik low-end
-  const isLowEnd = cores <= 4 || deviceMemory <= 2 || dpr > 2.2;
-
-  // enable Hyperspeed? (tunda + kondisi)
-  const [hyperReady, setHyperReady] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => setHyperReady(true), 300); // delay init
-    return () => clearTimeout(t);
-  }, []);
-
-  const enableHyperspeed =
-    hyperReady && sectionOnScreen && !prefersReducedMotion && !isLowEnd;
-
   // Typography & spacing
   const headingStyle = {
     fontWeight: 800,
-    fontSize: "clamp(1.4rem, 5vw, 3.25rem)",
+    fontSize: "clamp(1.8rem, 5vw, 3.5rem)", // Gedhe dikit biar tegas
     lineHeight: 1.1,
-    marginBottom: isSE ? 8 : 12,
+    marginBottom: isSE ? 8 : 16,
     wordBreak: "break-word",
+    background: "linear-gradient(to right, #fff, #94a3b8)", // Gradient text dikit
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
   };
+  
   const subStyle = {
-    fontSize: "clamp(0.95rem, 2.3vw, 1.25rem)",
-    opacity: 0.9,
-    marginBottom: isSE ? 8 : 12,
+    fontSize: "clamp(1rem, 2.3vw, 1.35rem)",
+    color: "#a78bfa", // Aksen ungu muda (aesthetic)
+    fontWeight: 600,
+    marginBottom: isSE ? 8 : 16,
+    letterSpacing: "0.05em",
   };
+  
   const paraStyle = {
     maxWidth: isTablet ? 640 : 720,
     margin: isPhone ? "0 auto" : "0",
     fontSize: "clamp(0.95rem, 1.5vw, 1.125rem)",
-    lineHeight: 1.7,
-    opacity: 0.92,
+    lineHeight: 1.8,
+    color: "#cbd5e1", // Slate-300 biar mata adem
   };
 
-  // hindari backdrop-filter di mobile (mahal)
   const btnStyle = {
-    background: isPhone ? "rgba(139,92,246,0.22)" : "rgba(255, 255, 255, 0.08)",
-    // backdropFilter di-disable saat mobile
-    ...(isPhone ? {} : { backdropFilter: "blur(10px)" }),
+    background: "linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)",
     color: "#fff",
     fontWeight: 600,
-    borderRadius: "12px",
-    border: "1px solid rgba(255,255,255,0.25)",
-    padding: isSE ? "8px 14px" : "10px 20px",
-    transition: "all 0.25s ease",
+    borderRadius: "14px",
+    border: "none",
+    padding: isSE ? "10px 18px" : "12px 28px",
+    boxShadow: "0 4px 14px 0 rgba(139, 92, 246, 0.4)",
+    transition: "all 0.3s ease",
   };
 
   const cardWrapStyle = {
@@ -144,73 +101,41 @@ const Home = () => {
     transformOrigin: "center",
   };
 
-  // Hyperspeed options
-  const hyperOpts = useMemo(() => {
-    // base
-    const base = {
-      distortion: "turbulentDistortion",
-      length: 380,
-      roadWidth: 9,
-      islandWidth: 2,
-      lanesPerRoad: 4,
-      fov: 90,
-      fovSpeedUp: 150,
-      speedUp: 2,
-      carLightsFade: 0.35,
-      totalSideLightSticks: 18,
-      lightPairsPerRoadWay: 32,
-      shoulderLinesWidthPercentage: 0.05,
-      brokenLinesWidthPercentage: 0.1,
-      brokenLinesLengthPercentage: 0.5,
-      lightStickWidth: [0.12, 0.45],
-      lightStickHeight: [1.2, 1.6],
-      movingAwaySpeed: [60, 80],
-      movingCloserSpeed: [-120, -150],
-      carLightsLength: [380 * 0.03, 380 * 0.2],
-      carLightsRadius: [0.05, 0.13],
-      carWidthPercentage: [0.3, 0.5],
-      carShiftX: [-0.8, 0.8],
-      carFloorSeparation: [0, 5],
-      colors: {
-        roadColor: 0x080808,
-        islandColor: 0x0a0a0a,
-        background: 0x000000,
-        shoulderLines: 0xffffff,
-        brokenLines: 0xffffff,
-        leftCars: [0xd856bf, 0x6750a2, 0xc247ac],
-        rightCars: [0x03b3c3, 0x0e5ea5, 0x324555],
-        sticks: 0x03b3c3,
-      },
-      // Jika komponen Hyperspeed support renderer options:
-      // renderer: { powerPreference: "low-power", antialias: false, alpha: false, pixelRatio: dpr },
-    };
+  // STYLE BARU: Background Mesh Gradient
+  const meshGradientStyle = {
+    position: "absolute",
+    inset: 0,
+    zIndex: 0,
+    backgroundColor: "#090d12", // Base dark color
+    backgroundImage: `
+      radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 50%)
+    `,
+    // Optional: Tambah pattern titik-titik halus (Dot Grid)
+    maskImage: "radial-gradient(circle at center, black 40%, transparent 100%)",
+  };
 
-    if (isLowEnd || isPhone) {
-      return {
-        ...base,
-        lanesPerRoad: 3,
-        totalSideLightSticks: 12,
-        lightPairsPerRoadWay: 20,
-        fov: 80,
-        speedUp: 1.6,
-      };
-    }
-    if (isTablet) {
-      return {
-        ...base,
-        lanesPerRoad: 4,
-        totalSideLightSticks: 16,
-        lightPairsPerRoadWay: 26,
-        fov: 88,
-      };
-    }
-    return base;
-  }, [isLowEnd, isPhone, isTablet, dpr]);
+  // Dot Pattern Overlay (Bikin kesan techy & mahal)
+  const dotPatternStyle = {
+    position: "absolute",
+    inset: 0,
+    zIndex: 0,
+    backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px)",
+    backgroundSize: "32px 32px",
+    opacity: 0.4,
+    pointerEvents: "none",
+  };
 
   return (
-    <section
+    <motion.section
       ref={sectionRef}
       id="home"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
       style={{
         position: "relative",
         minHeight: "100svh",
@@ -224,93 +149,77 @@ const Home = () => {
         overflow: "visible",
       }}
     >
-      {/* BACKGROUND */}
-      <div
-        aria-hidden
+      {/* === NEW AESTHETIC BACKGROUND === */}
+      <div style={meshGradientStyle} />
+      <div style={dotPatternStyle} />
+      
+      {/* Glow tengah yang subtle */}
+      <div 
         style={{
           position: "absolute",
-          inset: 0,
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "60vw",
+          height: "60vh",
+          background: "radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%)",
+          filter: "blur(60px)",
           zIndex: 0,
-          pointerEvents: "none",
+        }} 
+      />
+
+      {/* Mask solid di belakang navbar (biar navbar kebaca) */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          height: navH,
+          background: "linear-gradient(to bottom, #090d12 20%, transparent 100%)",
+          zIndex: 1,
         }}
-      >
-        {enableHyperspeed ? (
-          <Hyperspeed
-            key={`${sectionSize.width}x${sectionSize.height}:${isLowEnd ? "L" : "H"}`}
-            effectOptions={hyperOpts}
-          />
-        ) : (
-          // Fallback ringan di device lemah / reduce motion / offscreen
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(120% 70% at 50% 100%, rgba(6,182,212,.28), transparent 60%), radial-gradient(90% 50% at 0% 80%, rgba(139,92,246,.24), transparent 60%), #090d12",
-            }}
-          />
-        )}
+      />
 
-        {/* Mask solid di belakang navbar */}
-        <div
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: 0,
-            height: navH,
-            background: "#090d12",
-          }}
-        />
-        {/* Gradient memudar */}
-        <div
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: navH,
-            height: "46%",
-            background:
-              "linear-gradient(180deg, rgba(9,13,18,.92) 0%, rgba(9,13,18,.65) 45%, rgba(9,13,18,0) 100%)",
-          }}
-        />
-      </div>
-
-      {/* KONTEN */}
+      {/* KONTEN UTAMA */}
       <Container style={{ position: "relative", zIndex: 2 }}>
         <Row className="align-items-center g-4 g-lg-5">
+          {/* Teks Kiri */}
           <Col md={7} className={isPhone ? "text-center" : "text-md-start text-center"}>
-            <h2 style={headingStyle}>Rheza Rifalsya Hermawan</h2>
-            <p style={subStyle}>Informatika · Web Development</p>
-            <p style={paraStyle}>
-              Mahasiswa Manajemen Informatika yang berfokus pada pengembangan web, memanfaatkan kode untuk menciptakan solusi digital yang inovatif, efisien, dan berdampak, dengan prioritas pada fungsionalitas dan pengalaman pengguna.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              <h2 style={headingStyle}>Rheza Rifalsya Hermawan</h2>
+              <p style={subStyle}>INFORMATIKA · WEB DEVELOPMENT</p>
+              <p style={paraStyle}>
+                Mahasiswa Manajemen Informatika yang berfokus pada pengembangan web, memanfaatkan kode untuk menciptakan solusi digital yang inovatif, efisien, dan berdampak, dengan prioritas pada fungsionalitas dan pengalaman pengguna.
+              </p>
 
-            <div className={isPhone ? "d-flex justify-content-center" : ""}>
-              <Button
-                size="sm"
-                href="#about"
-                className="mt-3"
-                style={btnStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(139, 92, 246, 0.28)";
-                  e.currentTarget.style.border = "1px solid #8B5CF6";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = isPhone
-                    ? "rgba(139,92,246,0.22)"
-                    : "rgba(255, 255, 255, 0.08)";
-                  e.currentTarget.style.border = "1px solid rgba(255,255,255,0.25)";
-                }}
-              >
-                About me
-              </Button>
-            </div>
+              <div className={isPhone ? "d-flex justify-content-center" : ""}>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button
+                    size="sm"
+                    href="#about"
+                    className="mt-4"
+                    style={btnStyle}
+                  >
+                    Tentang Saya
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
           </Col>
 
-          {/* Desktop/Tablet Card */}
+          {/* Kartu Profil Kanan */}
           <Col md={5} className="d-none d-md-flex justify-content-center align-items-center">
-            <div style={cardWrapStyle}>
+            <motion.div 
+              style={cardWrapStyle}
+              initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ delay: 0.4, duration: 0.6, type: "spring" }}
+            >
               <ProfileCard
                 name="Rheza"
                 title="Web Development"
@@ -323,12 +232,17 @@ const Home = () => {
                 enableMobileTilt={false}
                 onContactClick={() => console.log("Contact clicked")}
               />
-            </div>
+            </motion.div>
           </Col>
 
           {/* Mobile Card */}
-          <Col xs={12} className="d-flex d-md-none justify-content-center" style={{ marginTop: isSE ? 8 : 12 }}>
-            <div style={cardWrapStyle}>
+          <Col xs={12} className="d-flex d-md-none justify-content-center" style={{ marginTop: isSE ? 16 : 24 }}>
+            <motion.div 
+              style={cardWrapStyle}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
               <ProfileCard
                 name="Rheza"
                 title="Web Development"
@@ -337,15 +251,15 @@ const Home = () => {
                 contactText="Contact Me"
                 avatarUrl={imgProfile}
                 showUserInfo
-                enableTilt={false}          // extra aman
+                enableTilt={false} // Extra aman buat mobile
                 enableMobileTilt={false}
                 onContactClick={() => console.log("Contact clicked")}
               />
-            </div>
+            </motion.div>
           </Col>
         </Row>
       </Container>
-    </section>
+    </motion.section>
   );
 };
 

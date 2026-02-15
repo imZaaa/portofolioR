@@ -6,72 +6,77 @@ import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 const Footer = () => {
   const year = new Date().getFullYear();
 
-  // small helpers
+  // Helper style untuk tombol sosial media (Pill)
   const pill = {
     display: "inline-grid",
     placeItems: "center",
     width: 44,
     height: 44,
     borderRadius: 12,
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    color: "#e5e7eb",
-    transition: "transform .15s ease, box-shadow .2s ease, background .2s ease",
+    background: "rgba(255,255,255,0.03)", // Transparan tipis
+    border: "1px solid rgba(255,255,255,0.08)",
+    color: "#cbd5e1",
+    transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+    marginRight: 10,
+    cursor: "pointer",
   };
 
   return (
     <footer
       id="site-footer"
       style={{
-        backgroundColor: "#090d12",
-        color: "#e0e0e0",
-        paddingTop: "3.5rem",
-        paddingBottom: "2.25rem",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
+        backgroundColor: "#090d12", // Dark background konsisten
+        color: "#e2e8f0",
+        paddingTop: "4rem",
+        paddingBottom: "2rem",
+        position: "relative",
+        borderTop: "1px solid rgba(255,255,255,0.05)", // Border tipis di atas
       }}
     >
-      {/* gradient accent line */}
+      {/* Gradient Accent Line (Garis Pemanis di atas) */}
       <div
         style={{
-          height: 2,
-          width: "100%",
-          background:
-            "linear-gradient(90deg, rgba(139,92,246,1) 0%, rgba(6,182,212,1) 100%)",
-          marginBottom: 24,
-          opacity: 0.9,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "1px",
+          background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.5), transparent)",
         }}
       />
 
       <Container>
-        <Row className="gy-4">
-          {/* Brand / about */}
-          <Col md={4}>
-            <h4 className="fw-bold mb-3" style={{ color: "#fff", letterSpacing: .2 }}>
-              Rheza Rifalsya Hermawan
+        <Row className="gy-5">
+          {/* Brand / About */}
+          <Col lg={4} md={6}>
+            <h4 className="fw-bold mb-3" style={{ color: "#fff", letterSpacing: "-0.02em" }}>
+              Rheza Rifalsya H.
             </h4>
-            <p style={{ maxWidth: 280, color: "#cbd5e1", fontSize: "0.95rem" }}>
-              Building useful, clean, and considerate products—one commit at a time.
+            <p style={{ maxWidth: 300, color: "#94a3b8", fontSize: "0.95rem", lineHeight: 1.7 }}>
+              Mahasiswa Manajemen Informatika yang berfokus membangun produk digital yang bermanfaat, bersih, dan memprioritaskan pengguna.
             </p>
 
-            <div className="d-flex gap-2 mt-3">
+            <div className="d-flex mt-4">
               <a
                 href="https://github.com/imZaaa"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={pill}
+                aria-label="GitHub"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.background = "rgba(139,92,246,0.16)";
-                  e.currentTarget.style.boxShadow = "0 10px 22px rgba(139,92,246,.35)";
+                  e.currentTarget.style.background = "rgba(139,92,246,0.15)";
+                  e.currentTarget.style.borderColor = "#8B5CF6";
+                  e.currentTarget.style.color = "#fff";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.color = "#cbd5e1";
                 }}
-                aria-label="GitHub"
               >
-                <FaGithub size={18} />
+                <FaGithub size={20} />
               </a>
 
               <a
@@ -79,19 +84,21 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={pill}
+                aria-label="LinkedIn"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.background = "rgba(6,182,212,0.16)";
-                  e.currentTarget.style.boxShadow = "0 10px 22px rgba(6,182,212,.35)";
+                  e.currentTarget.style.background = "rgba(6,182,212,0.15)";
+                  e.currentTarget.style.borderColor = "#06b6d4";
+                  e.currentTarget.style.color = "#fff";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.color = "#cbd5e1";
                 }}
-                aria-label="LinkedIn"
               >
-                <FaLinkedin size={18} />
+                <FaLinkedin size={20} />
               </a>
 
               <a
@@ -99,29 +106,31 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={pill}
+                aria-label="Instagram"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.background = "rgba(139,92,246,0.16)";
-                  e.currentTarget.style.boxShadow = "0 10px 22px rgba(139,92,246,.35)";
+                  e.currentTarget.style.background = "rgba(236,72,153,0.15)";
+                  e.currentTarget.style.borderColor = "#ec4899";
+                  e.currentTarget.style.color = "#fff";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.color = "#cbd5e1";
                 }}
-                aria-label="Instagram"
               >
-                <FaInstagram size={18} />
+                <FaInstagram size={20} />
               </a>
             </div>
           </Col>
 
-          {/* Navigation – react-scroll smooth */}
-          <Col md={3}>
-            <h6 className="fw-bold mb-3" style={{ color: "#fff", letterSpacing: .6 }}>
-              NAVIGATION
+          {/* Navigation */}
+          <Col lg={2} md={3} xs={6}>
+            <h6 className="fw-bold mb-4" style={{ color: "#fff", fontSize: "0.85rem", letterSpacing: "0.05em" }}>
+              NAVIGASI
             </h6>
-            <ul className="list-unstyled" style={{ lineHeight: "2" }}>
+            <ul className="list-unstyled d-flex flex-column gap-2">
               {["home", "about", "projects", "contact"].map((sec) => (
                 <li key={sec}>
                   <Link
@@ -129,8 +138,11 @@ const Footer = () => {
                     spy={true}
                     smooth={true}
                     offset={-70}
-                    duration={600}
+                    duration={800} // Durasi scroll lebih smooth
                     className="footer-link"
+                    style={{ cursor: "pointer", color: "#94a3b8", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }}
+                    onMouseEnter={(e) => e.target.style.color = "#fff"}
+                    onMouseLeave={(e) => e.target.style.color = "#94a3b8"}
                   >
                     {sec.charAt(0).toUpperCase() + sec.slice(1)}
                   </Link>
@@ -140,63 +152,53 @@ const Footer = () => {
           </Col>
 
           {/* Services */}
-          <Col md={2}>
-            <h6 className="fw-bold mb-3" style={{ color: "#fff", letterSpacing: .6 }}>
-              SERVICES
+          <Col lg={3} md={3} xs={6}>
+            <h6 className="fw-bold mb-4" style={{ color: "#fff", fontSize: "0.85rem", letterSpacing: "0.05em" }}>
+              LAYANAN
             </h6>
-            <ul className="list-unstyled" style={{ lineHeight: "2", color: "#cbd5e1" }}>
+            <ul className="list-unstyled d-flex flex-column gap-2" style={{ color: "#94a3b8", fontSize: "0.95rem" }}>
               <li>Web Development</li>
-              <li>UI/UX Design</li>
-              <li>Consulting</li>
-              <li>Support</li>
+              <li>Frontend Engineering</li>
+              <li>UI Implementation</li>
+              <li>Responsive Design</li>
             </ul>
           </Col>
 
-          {/* Contact */}
-          <Col md={3}>
-            <h6 className="fw-bold mb-3" style={{ color: "#fff", letterSpacing: .6 }}>
-              CONTACT
+          {/* Contact Info */}
+          <Col lg={3} md={12}>
+            <h6 className="fw-bold mb-4" style={{ color: "#fff", fontSize: "0.85rem", letterSpacing: "0.05em" }}>
+              HUBUNGI SAYA
             </h6>
-            <ul className="list-unstyled" style={{ lineHeight: "2", color: "#cbd5e1" }}>
-              <li><a href="mailto:rhezarifalsya266@gmail.com" className="footer-link">rhezarifalsya266@gmail.com</a></li>
-              <li>Bekasi</li>
-              <li>Available for projects</li>
+            <ul className="list-unstyled d-flex flex-column gap-2" style={{ color: "#94a3b8", fontSize: "0.95rem" }}>
+              <li>
+                <a href="mailto:rhezarifalsya266@gmail.com" style={{ color: "#94a3b8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e) => e.target.style.color = "#fff"} onMouseLeave={(e) => e.target.style.color = "#94a3b8"}>
+                  rhezarifalsya266@gmail.com
+                </a>
+              </li>
+              <li>Bekasi, Indonesia</li>
+              <li className="mt-2 text-success" style={{ fontSize: "0.85rem" }}>
+                <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#22c55e", marginRight: 8 }}></span>
+                Open for opportunities
+              </li>
             </ul>
           </Col>
         </Row>
 
-        <hr style={{ borderColor: "rgba(255,255,255,0.08)", marginTop: "2.25rem" }} />
+        <hr style={{ borderColor: "rgba(255,255,255,0.05)", marginTop: "3rem", marginBottom: "1.5rem" }} />
 
-        <div className="d-flex justify-content-between flex-wrap pt-2">
-          <small style={{ color: "#94a3b8" }}>
-            © {year} Rheza. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="d-flex justify-content-between flex-wrap align-items-center gap-3">
+          <small style={{ color: "#64748b" }}>
+            © {year} Rheza Rifalsya Hermawan. All rights reserved.
           </small>
 
-          <div className="d-flex gap-3">
-            <a href="#" className="footer-link"><small>Privacy</small></a>
-            <a href="#" className="footer-link"><small>Terms</small></a>
-            <Link to="home" smooth={true} offset={-70} duration={600} className="footer-link">
-              <small>Back to top ↑</small>
+          <div className="d-flex gap-4">
+            <Link to="home" smooth={true} offset={-70} duration={800} style={{ cursor: "pointer", color: "#64748b", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.target.style.color = "#fff"} onMouseLeave={(e) => e.target.style.color = "#64748b"}>
+              Back to Top ↑
             </Link>
           </div>
         </div>
       </Container>
-
-      {/* simple scoped-ish styles */}
-      <style>{`
-        #site-footer .footer-link {
-          color: #cbd5e1;
-          text-decoration: none;
-          transition: color .2s ease;
-          cursor: pointer;
-        }
-        #site-footer .footer-link:hover {
-          color: #ffffff;
-        }
-        @media (max-width: 767.98px) {
-          #site-footer { padding-top: 2.5rem; }
-        }
-      `}</style>
     </footer>
   );
 };

@@ -2,7 +2,7 @@ section {
   padding-top: 60px;
 }
 
-/* --- ELITE PILL DYNAMIC NAVBAR --- */
+/* --- COMPACT ELITE PILL --- */
 .floating-navbar {
   position: fixed;
   left: 50%;
@@ -14,104 +14,72 @@ section {
   background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(15px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 100px; /* Bentuk Kapsul Abadi */
+  border-radius: 100px;
 }
 
-/* STATE 1: ATAS (Panjang & Elegan) */
+/* STATE 1: ATAS (Lebih Panjang Dikit) */
 .nav-top {
   top: 25px;
-  width: 90%;
-  max-width: 1100px;
-  padding: 10px 20px;
+  width: auto;
+  min-width: 600px; /* Ukuran pas buat nampung semua menu */
+  padding: 8px 20px;
 }
 
-/* STATE 2: SCROLLED (Pendek & Ringkas) */
+/* STATE 2: SCROLLED (Menciut Makin Pendek) */
 .nav-scrolled {
   top: 15px;
   width: auto;
-  min-width: 700px; /* Atur lebar minimal biar gak terlalu sempit */
-  max-width: 850px;
-  padding: 8px 15px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-  background: rgba(5, 5, 5, 0.9);
+  min-width: 500px; /* Makin kecil pas di scroll */
+  padding: 6px 15px;
+  background: rgba(5, 5, 5, 0.95);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Logo */
+/* Logo Sizing */
 .navbar-logo {
-  height: 35px;
+  height: 30px; /* Kecilin dikit logonya */
   width: auto;
-  transition: all 0.4s ease;
+  transition: 0.4s;
 }
 
-.nav-scrolled .navbar-logo {
-  height: 28px;
-}
-
-/* Link Styling - Mode Kapsul */
+/* Link Menu Lebih Rapat */
 .nav-link-pill {
   color: rgba(255, 255, 255, 0.6) !important;
-  font-size: 0.75rem;
+  font-size: 0.7rem; /* Font lebih kecil biar elite */
   font-weight: 700;
-  letter-spacing: 1.5px;
-  padding: 10px 22px !important;
+  letter-spacing: 1px;
+  padding: 8px 15px !important; /* Gap antar menu dikecilin */
   text-decoration: none;
   cursor: pointer;
   border-radius: 50px;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
-.nav-link-pill:hover {
-  color: #fff !important;
-}
-
-/* EFEK ACTIVE PILL - Kaya di Gambar Lu */
+/* Active Pill Style */
 .active-pill {
   color: #fff !important;
-  background: rgba(255, 255, 255, 0.1) !important; /* Abu-abu gelap transparan */
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Tombol Let's Talk */
+/* Tombol Let's Talk Compact */
 .btn-talk-elite {
-  background: #ffffff;
-  color: #000000 !important;
-  padding: 10px 24px;
+  background: #fff;
+  color: #000 !important;
+  padding: 8px 18px;
   border-radius: 100px;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-decoration: none;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  transition: 0.3s;
 }
 
-.btn-talk-elite:hover {
-  background: transparent;
-  color: #ffffff !important;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  outline: 1px solid #ffffff;
-}
-
-/* Responsivitas Mobile */
+/* Responsive Mobile */
 @media (max-width: 991.98px) {
   .nav-top, .nav-scrolled {
-    width: 92% !important;
+    width: 90% !important;
     min-width: unset !important;
-    max-width: unset !important;
     top: 15px;
-    padding: 12px 20px;
-  }
-  
-  .navbar-collapse {
-    background: #0a0a0a;
-    border-radius: 20px;
-    margin-top: 15px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .nav-link-pill {
-    padding: 12px !important;
-    display: block;
   }
 }
 
