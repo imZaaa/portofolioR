@@ -11,36 +11,37 @@ import imgStudy from "../assets/img/study.png";
 import imgCar from "../assets/img/car.png";
 import imgFitness from "../assets/img/fitness.png";
 import imgDashboard from "../assets/img/dashboard.png";
+import imgPordjo from "../assets/img/pordjo.png";
 
 const projects = [
   { 
     title: "Nature Nest", 
     category: "Development", 
-    description: "Aplikasi mobile wisata lokal dengan fitur wishlist dan ulasan.", 
+    description: "Platform informasi wisata berbasis mobile yang mengintegrasikan fitur ulasan pengguna dan manajemen wishlist untuk pengalaman perjalanan yang terpersonalisasi.", 
     tech: ["Flutter", "Dart", "API"], 
     image: imgNature, 
     link: "https://github.com/imZaaa/NatureNest-Aplikasi-Wisata-Lokal" 
   },
   { 
     title: "Vivarta Klinik", 
-    category: "Development",
-    description: "Website klinik dengan berbagai fitur dengan admin dan user.", 
+    category: "Development", 
+    description: "Sistem Informasi Manajemen Klinik terintegrasi yang memfasilitasi administrasi pasien, rekam medis, dan portal pengguna dengan kontrol akses berbasis peran (RBAC).", 
     tech: ["PHP", "CodeIgniter 3", "MySQL", "Bootstrap"], 
     image: imgVivarta, 
     link: "https://github.com/imZaaa/CI-KlinikK" 
   },
   { 
     title: "Study Master", 
-    category: "Development",
-    description: "Aplikasi mobile untuk membuat jadwal belajar.", 
+    category: "Development", 
+    description: "Aplikasi produktivitas akademik yang dirancang untuk membantu pelajar mengoptimalkan manajemen waktu, penjadwalan studi, dan pelacakan tugas secara efisien.", 
     tech: ["Flutter", "Dart"], 
     image: imgStudy, 
     link: "https://github.com/imZaaa/Aplikasi-Jadwal-Belajar" 
   },
   { 
     title: "Tech Nest", 
-    category: "Development",
-    description: "Mini Website E-Commerce menjual berbagai produk komputer.", 
+    category: "Development", 
+    description: "Platform E-Commerce responsif untuk ritel perangkat komputer, menampilkan manajemen katalog produk yang dinamis, keranjang belanja, dan simulasi transaksi.", 
     tech: ["PHP", "CodeIgniter 3", "MySQL", "Bootstrap"], 
     image: imgComputer, 
     link: "https://github.com/imZaaa/mini_computer_store" 
@@ -48,7 +49,7 @@ const projects = [
   { 
     title: "Design TK Madani", 
     category: "UI/UX Design", 
-    description: "Design tampilan website modern untuk taman kanak-kanak.", 
+    description: "Perancangan antarmuka pengguna (UI) website institusi pendidikan yang modern dan ramah anak, berfokus pada aksesibilitas informasi dan hierarki visual yang jelas.", 
     tech: ["Figma", "Prototyping"], 
     image: imgTK, 
     link: "https://www.figma.com/design/xG0dxMza2zMHHs9RAKFyg0/Madani-Website?node-id=0-1&p=f&t=9VweO569BifYi9dA-" 
@@ -56,26 +57,34 @@ const projects = [
   { 
     title: "Booking Cuci Mobil", 
     category: "UI/UX Design", 
-    description: "Design user interface aplikasi booking layanan cuci mobil.", 
+    description: "Desain High-Fidelity untuk aplikasi pemesanan layanan otomotif, mengutamakan alur pengguna (User Flow) yang ringkas dari pemilihan layanan hingga konfirmasi jadwal.", 
     tech: ["Figma", "UI Design"], 
     image: imgCar, 
     link: "https://www.figma.com/design/OVnOZ0lcxYstJ7yIoFcq76/Carwash?node-id=0-1&p=f&t=LMz2D4LakEl4PJJ1-0-" 
   },
   { 
     title: "Fitness & Gym", 
-    category: "Development",
-    description: "Modifikasi template kursus jadi website workout & gym.", 
+    category: "Development", 
+    description: "Pengembangan Landing Page interaktif untuk pusat kebugaran, menampilkan jadwal kelas dan profil pelatih dengan antarmuka yang dinamis dan responsif.", 
     tech: ["HTML", "CSS", "JavaScript"], 
     image: imgFitness, 
     link: "https://github.com/imZaaa/Fitness_and_Gymm" 
   },
   { 
     title: "Mini Dashboard Film", 
-    category: "Development",
-    description: "Dashboard film dari OMDb API dengan fitur pencarian.", 
+    category: "Development", 
+    description: "Dashboard eksplorasi film interaktif yang mengonsumsi OMDb API, memungkinkan pengguna mencari dan melihat detail sinematik secara real-time.", 
     tech: ["React", "Bootstrap", "API"], 
     image: imgDashboard, 
     link: "https://github.com/imZaaa/Mini_Dashboard_Film" 
+  },
+  { 
+    title: "Company Payroll App & Web", 
+    category: "Development", 
+    description: "Sistem penggajian dan absensi karyawan berbasis mobile dan website yang dikembangkan untuk PT Pordjo Steelindo Perkasa guna mengotomatisasi perhitungan gaji operasional.", 
+    tech: ["React Native", "PHP", "API"], 
+    image: imgPordjo, // Pastikan gambarnya sesuai atau pakai placeholder dulu
+    link: "#" 
   },
 ];
 
